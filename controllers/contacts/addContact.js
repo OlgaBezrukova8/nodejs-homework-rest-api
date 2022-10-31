@@ -4,8 +4,6 @@ const { RequestError } = require("../../helpers");
 const { schemas } = require("../../models/contacts");
 
 const addContact = async (req, res, next) => {
-
-
   const { error } = schemas.addSchema.validate(req.body);
 
   if (error) {

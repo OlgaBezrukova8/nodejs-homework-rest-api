@@ -35,7 +35,7 @@ const User = model("user", userSchema);
 const signUpSchema = Joi.object({
   password: Joi.string().min(6).required(),
   email: Joi.string().pattern(emailRegex).required(),
-  subscription: Joi.string.default(false),
+  subscription: Joi.string(),
   token: Joi.string(),
 });
 

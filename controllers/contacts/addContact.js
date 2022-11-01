@@ -10,7 +10,13 @@ const addContact = async (req, res, next) => {
     throw RequestError(400, "Missing required name field");
   }
 
-  const result = await Contact.create(req.body);
+  if (!req.user) {
+    throw RequestError(401, "Not authorized");
+  }
+
+  const { _id: owner } = req.user;
+
+  const result = await Contact.create({ ...req.body, owner });
   if (!result) {
     throw RequestError(404, "Error occured");
   }

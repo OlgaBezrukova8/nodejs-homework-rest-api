@@ -4,7 +4,7 @@ const { User } = require("../../models/user");
 const { RequestError } = require("../../helpers");
 const { schemas } = require("../../models/user");
 
-const signUp = async (req, res, next) => {
+const signUp = async (req, res) => {
   const { error } = schemas.signUpSchema.validate(req.body);
   if (error) {
     throw RequestError(400, "Error validation");

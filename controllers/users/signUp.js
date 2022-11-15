@@ -1,8 +1,9 @@
 const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar");
+const { v4: uuidv4 } = require("uuid");
 
 const { User } = require("../../models/user");
-const { RequestError } = require("../../helpers");
+const { RequestError, sendEmail, createVerifyEmail } = require("../../helpers");
 const { schemas } = require("../../models/user");
 
 const signUp = async (req, res) => {
@@ -20,12 +21,19 @@ const signUp = async (req, res) => {
 
   const hashPassword = await bcrypt.hash(password, 10);
   const avatarURL = gravatar.url(email);
+
+  const verificationToken = uuidv4();
+
   const result = await User.create({
     email,
     password: hashPassword,
     subscription,
     avatarURL,
+    verificationToken,
   });
+
+  const mail = createVerifyEmail(email, verificationToken);
+  await sendEmail(mail);
 
   res.status(201).json({
     user: {

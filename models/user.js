@@ -54,9 +54,14 @@ const loginSchema = Joi.object({
   email: Joi.string().pattern(emailRegex).required(),
 });
 
+const verifyEmailSchema = Joi.object({
+  email: Joi.string().pattern(emailRegex).required(),
+});
+
 const schemas = {
   signUpSchema,
   loginSchema,
+  verifyEmailSchema,
 };
 
 module.exports = {
